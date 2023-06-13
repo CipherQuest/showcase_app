@@ -1,0 +1,459 @@
+import 'package:dio/dio.dart';
+
+import 'app_apis.dart';
+
+class APIRoute implements APIRouteConfigurable {
+  final APIType type;
+  final String? routeParams;
+  Map<String, dynamic>? headers;
+  dynamic body;
+  dynamic queryParams;
+
+  APIRoute(this.type,
+      {this.routeParams, this.headers, this.body, this.queryParams});
+
+  /// Return config of api (method, url, header)
+  @override
+  RequestOptions getConfig() {
+    // pass extra value to detect public or auth api
+
+    switch (type) {
+      case APIType.loginUser:
+        return RequestOptions(
+          path: ApiConstants.loginUser,
+          headers: headers,
+          data: body,
+          method: APIMethod.post,
+        );
+
+      case APIType.getAllUsers:
+        return RequestOptions(
+          path: ApiConstants.users,
+          headers: headers,
+          queryParameters: body,
+          method: APIMethod.get,
+        );
+
+      case APIType.registerUser:
+        return RequestOptions(
+          path: ApiConstants.registerUser,
+          headers: headers,
+          data: FormData.fromMap(body),
+          method: APIMethod.post,
+        );
+
+      case APIType.becomeAgent:
+        return RequestOptions(
+          path: ApiConstants.becomeAgent,
+          headers: headers,
+          data: FormData.fromMap(body),
+          method: APIMethod.post,
+        );
+
+      case APIType.loadProperties:
+        return RequestOptions(
+          path: ApiConstants.loadProperties,
+          headers: headers,
+          queryParameters: body,
+          method: APIMethod.get,
+        );
+
+      case APIType.loadProjects:
+        return RequestOptions(
+          path: ApiConstants.loadProjects,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadCompanies:
+        return RequestOptions(
+          path: ApiConstants.userCompanies,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadAgencies:
+        return RequestOptions(
+          path: ApiConstants.loadAgencies,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadCompanyPropertiesListing:
+        return RequestOptions(
+          path: ApiConstants.loadCompanyPropertiesListing,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadAgents:
+        return RequestOptions(
+          path: ApiConstants.loadAgents,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.agentzPropertyListing:
+        return RequestOptions(
+          path: ApiConstants.agentzPropertyListing,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadBlogs:
+        return RequestOptions(
+          path: ApiConstants.loadBlogs,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadUserDetails:
+        return RequestOptions(
+          path: '',
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.updateUserDetails:
+        return RequestOptions(
+          path: "${ApiConstants.users}/${body['id']}/",
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.createProperty:
+        return RequestOptions(
+          path: ApiConstants.properties,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateProperty:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.uploadImages:
+        return RequestOptions(
+          path: ApiConstants.uploadImages,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.searchForTrends:
+        return RequestOptions(
+          path: ApiConstants.searchForTrends,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.loadTutorials:
+        return RequestOptions(
+          path: ApiConstants.loadTutorials,
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.postUserPreference:
+        return RequestOptions(
+          path: ApiConstants.userPreferences,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.getUserPreferences:
+        return RequestOptions(
+          path: ApiConstants.userPreferences,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.updateUserPreferences:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.getUserPreferenceListing:
+        return RequestOptions(
+          path: ApiConstants.getUserPreference,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.checkUniqueMail:
+        return RequestOptions(
+          path: ApiConstants.checkUniqueMail,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.checkUniqueCnic:
+        return RequestOptions(
+          path: ApiConstants.checkUniqueCnic,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.userPropertyFiles:
+        return RequestOptions(
+          path: ApiConstants.userPropertyFiles,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.getPropertyFilesBid:
+        return RequestOptions(
+          path: ApiConstants.propertyFilesBid,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.placeYourPropertyBid:
+        return RequestOptions(
+          path: ApiConstants.propertyFilesBid,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.acceptBid:
+        return RequestOptions(
+          path: ApiConstants.acceptBid,
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.createFile:
+        return RequestOptions(
+          path: ApiConstants.userPropertyFiles,
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateFile:
+        return RequestOptions(
+          path: "${ApiConstants.userPropertyFiles}/${body['id']}/",
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.put,
+        );
+
+      case APIType.postFileImages:
+        return RequestOptions(
+          path: ApiConstants.postFileImages,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.loadForums:
+        return RequestOptions(
+          path: ApiConstants.groupDiscussion,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.postNewForum:
+        return RequestOptions(
+          path: ApiConstants.groupDiscussion,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.replyToForum:
+        return RequestOptions(
+          path: ApiConstants.groupDiscussionReply,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.createSocialGroup:
+        return RequestOptions(
+          path: ApiConstants.socialGroups,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateSocialGroup:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+
+      case APIType.getAllSocialGroups:
+        return RequestOptions(
+          path: ApiConstants.socialGroups,
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.getOneSocialGroupById:
+        return RequestOptions(
+          path: "${ApiConstants.socialGroups}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.socialGroupMemberRequestUpdate:
+        return RequestOptions(
+          path: "${ApiConstants.socialGroupMember}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.requestJoinGroup:
+        return RequestOptions(
+          path: ApiConstants.socialGroupMember,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.getSocialPosts:
+        return RequestOptions(
+          path: ApiConstants.socialPosts,
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.createSocialPosts:
+        return RequestOptions(
+          path: ApiConstants.socialPosts,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.updateSocialPosts:
+        return RequestOptions(
+          path: '',
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+      case APIType.postSocialPostComment:
+        return RequestOptions(
+          path: ApiConstants.socialPostComments,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.propertyPostCommentLikes:
+        return RequestOptions(
+          path: ApiConstants.propertyPostCommentLikes,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.propertyPostCommentLikesPut:
+        return RequestOptions(
+          path: "${ApiConstants.propertyPostCommentLikes}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+
+      case APIType.companiesProjects:
+        return RequestOptions(
+          path: "${ApiConstants.companiesProjects}/${body['id']}/",
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.placeBid:
+        return RequestOptions(
+          path: ApiConstants.placeBid,
+          data: body,
+          headers: headers,
+          method: APIMethod.post,
+        );
+      case APIType.loadBidsOfAuction:
+        return RequestOptions(
+          path: ApiConstants.placeBid,
+          queryParameters: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+      case APIType.editProperty:
+        return RequestOptions(
+          path: ApiConstants.editProperty,
+          queryParameters: body,
+          data: body,
+          headers: headers,
+          method: APIMethod.put,
+        );
+
+      case APIType.getNotifications:
+        return RequestOptions(
+          path: ApiConstants.notifications,
+          queryParameters: body,
+          data: body,
+          headers: headers,
+          method: APIMethod.get,
+        );
+
+      case APIType.postNotification:
+        return RequestOptions(
+          path: ApiConstants.notifications,
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.post,
+        );
+
+      case APIType.patchNotifications:
+        return RequestOptions(
+          path: "${ApiConstants.notifications}/${body['id']}/",
+          queryParameters: body,
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.patch,
+        );
+
+      case APIType.deleteNotification:
+        return RequestOptions(
+          path: "${ApiConstants.notifications}/${body['id']}/",
+          queryParameters: body,
+          data: FormData.fromMap(body),
+          headers: headers,
+          method: APIMethod.delete,
+        );
+      /*case APIType.googleNearByPlacesSearch:
+        return RequestOptions(
+          path: ApiConstants.googleNearByPlacesSearch,
+          headers: headers,
+          queryParameters: body,
+          method: APIMethod.get,
+        );*/
+
+      default:
+        return RequestOptions(
+          path: ApiConstants.loginUser,
+          headers: headers,
+          data: body,
+          method: APIMethod.post,
+        );
+    }
+  }
+}
+
+abstract class APIRouteConfigurable {
+  RequestOptions getConfig();
+}
+
+class APIMethod {
+  static const get = 'GET';
+  static const post = 'POST';
+  static const put = 'PUT';
+  static const patch = 'PATCH';
+  static const delete = 'DELETE'; //delete
+}
