@@ -1,0 +1,33 @@
+name: Generate Contributions
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Git Config
+        run: |
+          git config --global user.email "careers@thebeelogix.com"
+          git config --global user.name "CipherQuest"
+
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Fetch Latest Changes
+        run: |
+          git fetch origin main
+
+      - name: Generate Contributions
+        run: |
+          for i in {1..10}; do
+            git pull --rebase origin main
+            random_number=$(( RANDOM % 1000 )) # Generate a random number between 0 and 999
+            echo "Making contribution - Random Number: $random_number" >> contribution.txt
+            git add contribution.txt
+            git commit -m "Add contribution - Random Number: $random_number"
+            git push
+            sleep 1
+          done
