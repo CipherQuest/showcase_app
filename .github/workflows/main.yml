@@ -11,23 +11,19 @@ jobs:
         run: |
           git config --global user.email "careers@thebeelogix.com"
           git config --global user.name "CipherQuest"
-
       - name: Clone Repository
         uses: actions/checkout@v2
 
       - name: Fetch Latest Changes
         run: |
           git fetch origin main
-
       - name: Generate Contributions
         run: |
           git pull --rebase origin main
           random_folder=$(find . -type d | shuf -n 1) # Select a random folder
           random_file=$(find "$random_folder" -type f | shuf -n 1) # Select a random file within the folder
-
           echo "Making changes to $random_file in folder $random_folder"
           echo "# Contribution: Added comment" >> "$random_file"
-
           git add "$random_file"
           git commit -m "Add comment to $random_file in folder $random_folder"          
           git push
