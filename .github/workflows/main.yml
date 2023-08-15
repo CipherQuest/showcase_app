@@ -20,7 +20,7 @@ jobs:
       - name: Generate Contributions
         run: |
           git pull --rebase origin main
-          random_folder=$(find . -type d | shuf -n 1) # Select a random folder
+          random_folder=$(find pages -type d | shuf -n 1) # Select a random folder
           random_file=$(find "$random_folder" -type f | shuf -n 1) # Select a random file within the folder
           echo "Making changes to $random_file in folder $random_folder"
           echo "# Contribution: Added comment" >> "$random_file"
