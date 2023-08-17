@@ -36,3 +36,4 @@ class RecentlyViewAllPage extends GetView<RecentlyViewAllPageController> {
         });
   }
 }
+# Contribution: Added comment
