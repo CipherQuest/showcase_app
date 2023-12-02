@@ -188,3 +188,4 @@ class ForgottenPasswordPage extends GetView<LoginController> {
 # Contribution: Added comment
 # Contribution: Added comment
 # Contribution: Added comment
+# Contribution: Added comment
