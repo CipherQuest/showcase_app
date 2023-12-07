@@ -329,3 +329,4 @@ class LoginPage extends GetView<LoginController> {
 # Contribution: Added comment
 # Contribution: Added comment
 # Contribution: Added comment
+# Contribution: Added comment
