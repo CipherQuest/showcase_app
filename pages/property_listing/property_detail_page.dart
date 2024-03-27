@@ -823,3 +823,4 @@ class PropertyDetailsPage extends GetView<PropertyDetailController> {
 # Contribution: Added comment
 # Contribution: Added comment
 # Contribution: Added comment
+# Contribution: Added comment
