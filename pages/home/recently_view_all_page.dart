@@ -131,3 +131,4 @@ class RecentlyViewAllPage extends GetView<RecentlyViewAllPageController> {
 # Contribution: Added comment
 # Contribution: Added comment
 # Contribution: Added comment
+# Contribution: Added comment
