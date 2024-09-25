@@ -784,3 +784,4 @@ class NotificationsPage extends GetView<NotificationController> {
 # Contribution: Added comment
 # Contribution: Added comment
 # Contribution: Added comment
+# Contribution: Added comment
